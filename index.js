@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +22,9 @@ app.use(fileUpload({}));
 app.use("/static", express.static(path.resolve(__dirname, "static")));
 app.use(express.urlencoded({ extended: false }));
 app.use("/delivery_api", mainRouter);
+app.get('/', (req, res) => {
+    res.send('Welcome to the server!');
+});
 
 async function start() {
     try {
