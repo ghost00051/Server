@@ -14,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
@@ -26,16 +25,19 @@ app.get('/', (req, res) => {
     res.send('Welcome to the server!');
 });
 
-async function start() {
+// Подключение к базе данных
+async function connectToDatabase() {
     try {
         await sequelize.authenticate();
         await sequelize.sync();
-        app.listen(PORT, '0.0.0.0', () => { // Изменено на '0.0.0.0'
-            console.log(`Server has been started on port ${PORT}...`);
-        });
+        console.log('Database connected successfully.');
     } catch (e) {
-        console.log(e);
+        console.error('Database connection failed:', e);
     }
 }
 
-start();
+// Подключаемся к базе данных
+connectToDatabase();
+
+// Экспортируем приложение
+export default app;
